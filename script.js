@@ -6,6 +6,7 @@ window.onload = function(){
     var ctx;
     var delay = 100;
     var snakee;
+    var applee;
 
     init();
 
@@ -17,6 +18,7 @@ window.onload = function(){
         document.body.appendChild(canvas);
         ctx = canvas.getContext('2d');
         snakee = new Snake([[6,4], [5,4], [4,4]], "right");
+        applee = new Apple([10, 10]);
         refreshCanvas();
     }
 
@@ -24,6 +26,7 @@ window.onload = function(){
         ctx.clearRect(0,0,canvasWidth,canvasHeight);
         snakee.advance();
         snakee.draw();
+        applee.draw();
         setTimeout(refreshCanvas, delay);
     }
 
@@ -38,7 +41,7 @@ window.onload = function(){
         this.direction = direction;
         this.draw = function(){
             ctx.save();
-            ctx.fillStyle = "#ff0000";
+            ctx.fillStyle = "#55cc33";
             for(var i = 0; i < this.body.length; i++){
                 drawBlock(ctx,this.body[i]);
             }
@@ -82,6 +85,21 @@ window.onload = function(){
             if(allowedDirections.indexOf(newDirection) > -1){
                 this.direction = newDirection;
             }
+        };
+    }
+
+    function Apple(position){
+        this.position = position;
+        this.draw = function(){
+            ctx.save();
+            ctx.fillStyle = "#ff0000";
+            ctx.beginPath();
+            var radius = blockSize / 2;
+            var x = position[0]*blockSize + radius;
+            var y = position[1]*blockSize + radius;
+            ctx.arc(x,y, radius, 0, Math.PI*2, true);
+            ctx.fill();
+            ctx.restore();
         };
     }
 
